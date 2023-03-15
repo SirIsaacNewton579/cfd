@@ -156,78 +156,78 @@ void deteparams(){
         cL = sqrt(g*pstar/rhoL);
     }
 }
-void getState(double t,double *x,double *p,double *rho,double *u){ //计算t时刻，x位置的状态
+void getState(double t,double &x,double &p,double &rho,double &u){ //计算t时刻，x位置的状态
     if(isVac){ //中间真空
-        if(*x<(u1+2*c1/(g-1))*t){
-            if(*x<(u1-c1)*t){
-                *u = u1;*p=p1;*rho = rho1;
+        if(x<(u1+2*c1/(g-1))*t){
+            if(x<(u1-c1)*t){
+                u = u1;p=p1;rho = rho1;
             }
             else{
-                double c = ((g-1)*(u1 - *x/t)+2*c1)/(g+1);
-                *u = c + *x/t;
-                *p = p1*pow(c/c1,2*g/(g-1));
-                *rho = g*(*p)/(c*c);
+                double c = ((g-1)*(u1 - x/t)+2*c1)/(g+1);
+                u = c + x/t;
+                p = p1*pow(c/c1,2*g/(g-1));
+                rho = g*p/(c*c);
             }
         }
-        else if (*x>(u2-2*c2/(g-1))*t){
-            if(*x>(u2+c2)*t){
-                *u = u2;*p=p2;*rho = rho2;
+        else if (x>(u2-2*c2/(g-1))*t){
+            if(x>(u2+c2)*t){
+                u = u2;p=p2;rho = rho2;
             }
             else{
-                double c = ((g-1)*(*x/t-u2)+2*c2)/(g+1);
-                *u = *x/t - c;
-                *p = p2*pow(c/c2,2*g/(g-1));
-                *rho = g*(*p)/(c*c);
+                double c = ((g-1)*(x/t-u2)+2*c2)/(g+1);
+                u = x/t - c;
+                p = p2*pow(c/c2,2*g/(g-1));
+                rho = g*p/(c*c);
             }
         }
         else{
-            *u = ustar;
-            *p = pstar;
-            *rho = 0.0;
+            u = ustar;
+            p = pstar;
+            rho = 0.0;
         }
     }
     else{
-        if(*x>ustar*t){ //计算右侧
+        if(x>ustar*t){ //计算右侧
             if(RS){  //右侧激波
-                if(*x<Z2*t){
-                    *u = ustar;*p=pstar;*rho = rhoR;
+                if(x<Z2*t){
+                    u = ustar;p=pstar;rho = rhoR;
                 }else{
-                    *u = u2;*p=p2;*rho = rho2;
+                    u = u2;p=p2;rho = rho2;
                 }
             }
             else{  //右侧膨胀波
-                if(*x<(ustar+cR)*t){
-                    *u = ustar;*p=pstar;*rho = rhoR;
+                if(x<(ustar+cR)*t){
+                    u = ustar;p=pstar;rho = rhoR;
                 }
-                else if(*x<(u2+c2)*t){
-                    double c = ((g-1)*(*x/t-u2)+2*c2)/(g+1);
-                    *u = *x/t - c;
-                    *p = p2*pow(c/c2,2*g/(g-1));
-                    *rho = g*(*p)/(c*c);
+                else if(x<(u2+c2)*t){
+                    double c = ((g-1)*(x/t-u2)+2*c2)/(g+1);
+                    u = x/t - c;
+                    p = p2*pow(c/c2,2*g/(g-1));
+                    rho = g*p/(c*c);
                 }
                 else{
-                    *u = u2;*p=p2;*rho = rho2;
+                    u = u2;p=p2;rho = rho2;
                 }
             }
         }       
         else{ //计算左侧
             if(LS){ //左侧激波
-                if(*x>Z1*t){
-                    *u = ustar;*p=pstar;*rho = rhoL;
+                if(x>Z1*t){
+                    u = ustar;p=pstar;rho = rhoL;
                 }else{
-                    *u = u1;*p=p1;*rho = rho1;
+                    u = u1;p=p1;rho = rho1;
                 }   
             }
             else{ //左侧膨胀波
-                if(*x<(u1-c1)*t){
-                    *p = p1;*rho = rho1;*u = u1;
-                }else if(*x<(ustar-cL)*t){
-                    double c = ((g-1)*(u1 - *x/t)+2*c1)/(g+1);
-                    *u = c + *x/t;
-                    *p = p1*pow(c/c1,2*g/(g-1));
-                    *rho = g*(*p)/(c*c);
+                if(x<(u1-c1)*t){
+                    p = p1;rho = rho1;u = u1;
+                }else if(x<(ustar-cL)*t){
+                    double c = ((g-1)*(u1 - x/t)+2*c1)/(g+1);
+                    u = c + x/t;
+                    p = p1*pow(c/c1,2*g/(g-1));
+                    rho = g*p/(c*c);
                 }else {
-                    *u = ustar;*p=pstar;*rho = rhoL;
+                    u = ustar;p=pstar;rho = rhoL;
                 }
             }
 
@@ -266,7 +266,7 @@ int main(){
     csvfile << "x" << "," << "p" << "," << "rho" << "," << "u" << endl;
     for(int i=0;i<n;i++){
         x = d*i - L*0.5;
-        getState(t,&x,&p,&rho,&u);
+        getState(t,x,p,rho,u);
         csvfile << x << "," << p << "," << rho << "," << u << endl;
     }
     csvfile.close();
@@ -299,7 +299,7 @@ int main(){
         for(int j=0;j<nx;j++){
             t = i*dt;
             x = j*dx - Ls/2;
-            getState(t,&x,&p,&rho,&u);
+            getState(t,x,p,rho,u);
             pf << p <<",";
             rhof << rho << ",";
             uf << u << ",";
