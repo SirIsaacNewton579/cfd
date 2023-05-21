@@ -72,15 +72,15 @@ int main(){
     //cout << f(sol);
 
     // 计算p⭐
-    pstar = Nlsolve(F,dF,0.5); //计算中间的压强
+    pstar = Nlsolve(F,dF,1e-6); //计算中间的压强
     ustar = u1 - f(pstar,p1,rho1);  //计算中间的速度
     //cout << pstar <<endl;
     //cout << F(pstar)<<endl;
     //cout << ustar <<endl;
-    ofstream csvfile;
-    csvfile.open("test.csv", ios::out | ios::trunc);
-    for(int i=1;i<=200;i++){
-        csvfile << 0.05*i << "," << F(0.05*i) << endl;
-    }  
+    //ofstream csvfile;
+    //csvfile.open("test.csv", ios::out | ios::trunc);
+    //for(int i=1;i<=200;i++){
+    //    csvfile << 0.05*i << "," << F(0.05*i) << endl;
+    //}  
     return 0;
 }
