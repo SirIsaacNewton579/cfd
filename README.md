@@ -74,7 +74,7 @@ p:
 ![image](https://github.com/SirIsaacNewton579/cfd/blob/master/ppp.gif )   
 
 ### 4.
-(pL,rhoL,uL,pR,rhoR,uR)=(1,1,-1,0.5,0.5,1);  
+(pL,rhoL,uL,pR,rhoR,uR)=(1,1,-10,1,1,10);  
 
 left-going shock expansion wave, right-going expansion wave, vacuum in the middle;  
 
