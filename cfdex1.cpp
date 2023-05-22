@@ -233,8 +233,14 @@ void getState(double t,double &x,double &p,double &rho,double &u){ //计算t时�
     }
 }
 int main(){
-    SetState(1,1,-0.,0.1,0.125,-0.); //设置初始状态p,rho,u
+    SetState(1,1,0,0.1,0.125,0); //设置初始状态p,rho,u
     deteparams();  //计算参数
+    cout << "p*=" << pstar << endl;
+    cout << "u*=" << ustar << endl;
+    cout << "rhoL=" << rhoL << endl;
+    cout << "rhoR=" << rhoR << endl;
+    cout << "Z1=" << Z1 << endl;
+    cout << "Z2=" << Z2 << endl;
     if(LS){
         cout<<"左行激波，速度为"<<Z1<<endl;
     }else{
@@ -248,15 +254,15 @@ int main(){
     if(isVac) cout << "中间真空" <<endl;
 
     double t = 0.14;
-    const int n = 101;
-    const double L = 3*ceil(t*max(u2+c2,max(abs(u1-c1),max(abs(Z1),abs(Z2)))));
+    const int n = 401;
+    const double L = 1.0;//3*ceil(t*max(u2+c2,max(abs(u1-c1),max(abs(Z1),abs(Z2)))));
     double x,p,rho,u;
 
     double d = L/(n-1);
 
     //获取t时刻的数据并输出
     ofstream csvfile;
-    csvfile.open("test_t=1.4.csv", ios::out | ios::trunc);
+    csvfile.open("test_t=0.14.csv", ios::out | ios::trunc);
     csvfile << "x" << "," << "p" << "," << "rho" << "," << "u" << "," << "s" << endl;
     for(int i=0;i<n;i++){
         x = d*i - L*0.5;
@@ -286,7 +292,7 @@ int main(){
         tf << t <<endl;
     }
     tf.close();
-    for(int i=0;i<nt;i++){
+    for(int i=0;i<nx;i++){
         x = i*dx - Ls/2;
         xf << x <<endl;
     }
